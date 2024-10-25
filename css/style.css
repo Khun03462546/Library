@@ -1,0 +1,370 @@
+head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: whitesmoke;
+    color: white;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    font-size: 3em;
+    color: #ffffff;
+    margin-top: 40px;
+    font-weight: 700;
+    background: #925946;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+h2 {
+    color: red;
+    font-size: 2em;
+
+}
+
+.hover-span {
+    color: black;
+    transition: color 0.3s;
+}
+
+.hover-span:hover {
+    color: red;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background:whitesmoke;
+    margin: 0;
+    padding: 20px;
+}
+
+nav {
+    text-align: center;
+    margin-bottom: 30px;
+    background: #925946;
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+nav a::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #ffffff;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease-in-out;
+}
+
+nav a:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.book-list {
+    display: flex;
+    flex-wrap: wrap; /* ให้กล่องขึ้นบรรทัดใหม่เมื่อจำเป็น */
+    justify-content: space-between; /* จัดเรียงกล่องอย่างมีระเบียบ */
+    padding: 40px;
+    margin: auto;
+    width: 80%;
+}
+
+.book {
+    flex: 0 0 calc(25% - 30px); /* ขนาดของกล่องหนังสือเป็น 25% ของความกว้าง */
+    margin-bottom: 30px; /* ระยะห่างด้านล่างระหว่างแถว */
+    background-color: #a99488;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.book::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #c79a70;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.book:hover::before {
+    opacity: 1;
+}
+
+.book:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.book h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #925946;
+    text-align: center;
+    z-index: 1;
+    position: relative;
+}
+
+.book img {
+    max-width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1;
+    position: relative;
+
+}
+.book:hover h2 {
+    color: #007bff; /* สีที่เห็นได้ชัดเมื่อโฮเวอร์ */
+    z-index: 2; /* ชื่อหนังสือควรอยู่ข้างบน */
+    position: relative;
+}
+
+
+.book:hover img {
+    transform: scale(1.05);
+}
+
+.book p {
+    font-size: 1.1em;
+    color: white;
+    margin: 10px 0;
+    text-align: center;
+    z-index: 1;
+    position: relative;
+}
+
+.book a {
+    text-decoration: none;
+    color: whitesmoke;
+    font-weight: 600;
+}
+
+.book a:hover {
+    text-decoration: underline;
+}
+
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.5em;
+    }
+
+    nav a {
+        font-size: 1em;
+    }
+
+    .book-list {
+
+        width: 95%;
+        padding: 20px;
+    }
+}
+@media (max-width: 768px) {
+    .book {
+        flex: 0 0 calc(50% - 30px); /* เมื่อหน้าจอเล็กลงให้กล่องแต่ละอันมีขนาด 50% */
+    }
+}
+
+@media (max-width: 480px) {
+    .book {
+        flex: 0 0 calc(100% - 30px); /* เมื่อหน้าจอเล็กสุดให้กล่องแต่ละอันมีขนาด 100% */
+    }
+}
+
+b {
+    color: red;
+}
+
+.custom-header {
+    background-color: whitesmoke;
+
+}
+
+.custom-header a.nav-link,
+.custom-header .navbar-brand {
+    color: black !important;
+    /* ทำให้ข้อความและลิงก์เป็นสีขาว */
+}
+
+.custom-header a.nav-link:hover {
+    text-decoration: underline;
+}
+
+.form-container {
+    border: 5px solid #5B3A29; /* เพิ่มความหนาของกรอบ */
+    border-radius: 35px; /* มุมโค้ง */
+    padding: 20px; /* ระยะห่างด้านใน */
+    background-color: #f8f9fa; /* สีพื้นหลัง */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงาให้ดูนูนขึ้น */
+    max-width: 500px; /* กำหนดความกว้างสูงสุดให้เล็กลง */
+    margin: auto; /* จัดให้อยู่กลาง */
+}
+
+.add {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
+
+form {
+    display: flex; /* ใช้ Flexbox */
+    flex-direction: column; /* จัดเรียงแนวตั้ง */
+    align-items: center; /* จัดกึ่งกลาง */
+}
+.form-group {
+    width: 100%; /* ทำให้ช่องกรอกข้อมูลกว้างเต็มที่ */
+    margin-bottom: 15px; /* ระยะห่างระหว่างช่อง */
+}
+input[type="text"], input[type="number"], select {
+    width: 100%; /* ทำให้ช่องกรอกข้อมูลกว้างเต็มที่ */
+    padding: 10px; /* ระยะห่างภายในช่อง */
+    border: 1px solid #5B3A29; /* สีกรอบช่องเป็นน้ำตาลเข้ม */
+    border-radius: 5px; /* มุมโค้งของช่องกรอก */
+}
+input[type="submit"] {
+    width: auto; /* กำหนดให้ปุ่มกว้างตามเนื้อหา */
+    padding: 10px 20px; /* ระยะห่างภายในปุ่ม */
+    border: none; /* ไม่มีกรอบ */
+    border-radius: 5px; /* มุมโค้ง */
+    background-color: #5B3A29; /* สีพื้นหลังปุ่ม */
+    color: white; /* สีข้อความในปุ่ม */
+    cursor: pointer; /* เปลี่ยนเป็นรูปมือเมื่อชี้ไปที่ปุ่ม */
+}
+input[type="submit"]:hover {
+    background-color: #7B4B3A; /* สีพื้นหลังปุ่มเมื่อชี้ */
+}
+.card {
+    background-color: #a99488;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    color: white;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.delete-button {
+    background-color: red; /* สีพื้นหลัง */
+    color: white; /* สีข้อความ */
+    border-radius: 14px; /* ไม่มีขอบ */
+    padding: 5px 10px; /* ระยะห่างภายใน */
+    cursor: pointer; /* เปลี่ยนเคอร์เซอร์เมื่อชี้ */
+    transition: background-color 0.3s; /* เพิ่มการเปลี่ยนแปลง */
+    display: flex;
+    justify-content: center;
+}
+
+.delete-button:hover {
+    background-color: darkred; /* เปลี่ยนสีเมื่อชี้เมาส์ */
+}
+
+.button-container {
+    display: flex; /* ใช้ Flexbox */
+    justify-content: center; /* จัดให้อยู่กลาง */
+    margin-top: 15px; /* ระยะห่างด้านบน */
+}
+.card-title {
+    color:white;
+    font-size: 2em; /* เปลี่ยนสีข้อความใน h2 เป็นสีขาว */
+    text-align: center;
+    font-weight: bold;
+}
+.book-cover {
+    width: 100%;
+    height: 250px; /* กำหนดความสูงคงที่ให้กับรูปภาพ */
+    object-fit: cover; /* จัดการให้รูปภาพตัดขอบที่เกินออก */
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงาเล็กน้อย */
+    border-radius: 10px; /* มุมโค้ง */
+}
+
+.card-body {
+    text-align: center; /* จัดข้อความให้อยู่ตรงกลาง */
+}
+
+img {
+    max-width: 250px; 
+    border-radius: 10px; 
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(106, 90, 205, 0.2); 
+    border: 2px solid #6A5ACD; 
+}
+
+.details {
+    margin-top: 20px;
+    font-size: 18px; 
+    color: #8B4513; 
+    line-height: 1.5; 
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:#C1A278; 
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(106, 90, 205, 0.2);
+    margin: 5px; 
+}
+
+
+
+
+.delete-button {
+    background-color: #ff4d4d; 
+    padding: 5px 10px; 
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #e60000; 
+}
+
+p {
+    color:#8B4513; 
+    font-weight: bold;
+}
