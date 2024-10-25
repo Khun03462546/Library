@@ -1,12 +1,5 @@
-<?php $servername = "localhost";
-$username = "root";
-$password = "12345678";
-$dbname = "library";
-$conn = new
-    mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+<?php
+include("login.php");
 
 
 if (isset($_GET['book_id'])) {

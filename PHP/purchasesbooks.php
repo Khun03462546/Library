@@ -1,16 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "12345678";
-$dbname = "library";
-
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-
-if ($conn->connect_error) {
-    die("การเชื่อมต่อไม่สำเร็จ: " . $conn->connect_error);
-}
+include("login.php");
 
 
 $sql = "SELECT p.purchase_id, p.user_id, p.book_id, p.price, p.purchase_date, b.title, b.author, b.cover_image 
