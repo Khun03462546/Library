@@ -140,26 +140,25 @@ if (isset($_GET['book_id'])) {
             <img src="<?php echo htmlspecialchars($book['cover_image'], ENT_QUOTES, 'UTF-8'); ?>"
                 alt="<?php echo htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8'); ?>">
             <div class="details">
-                <p><strong>ผู้แต่ง:</strong> <?php echo htmlspecialchars($book['author'], ENT_QUOTES, 'UTF-8'); ?>
-                </p>
+                <p><strong>ผู้แต่ง:</strong> <?php echo htmlspecialchars($book['author'], ENT_QUOTES, 'UTF-8'); ?></p>
                 <p><strong>ประเภท:</strong> <?php echo htmlspecialchars($book['genre'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <p><strong>สถานะ:</strong>
-                    <?php echo htmlspecialchars($book['availability'], ENT_QUOTES, 'UTF-8'); ?>
+                <p><strong>สถานะ:</strong> <?php echo htmlspecialchars($book['availability'], ENT_QUOTES, 'UTF-8'); ?>
                 </p>
                 <a href="reserve.php?book_id=<?php echo $book_id; ?>" class="button">จองหนังสือ</a>
                 <a href="loan.php?book_id=<?php echo $book_id; ?>" class="button">ยืมหนังสือ</a>
                 <a href="purchases.php?book_id=<?php echo $book_id; ?>" class="button">ซื้อหนังสือ</a>
+                <a href="Edit.php?book_id=<?php echo$book_id; ?>" class = "button">แก้ไขข้อมูล</a>
 
-                <!-- Delete book form -->
+                <!-- ฟอร์มลบหนังสือ -->
                 <form action="delete_book.php" method="post" style="display:inline;">
                     <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
                     <button type="submit" class="delete-button"
                         onclick="return confirm('คุณแน่ใจหรือไม่ว่าต้องการลบหนังสือ?');">ลบหนังสือ</button>
                 </form>
-
             </div>
         </div>
     </div>
+
 </body>
 
 </html>

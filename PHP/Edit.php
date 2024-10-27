@@ -1,8 +1,27 @@
 <?php
 include("login.php");
 
-// ตรวจสอบว่ามีข้อมูล POST หรือไม่
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// ตรวจสอบว่ามีการส่ง book_id มาหรือไม่
+if (isset($_GET['book_id'])) {
+    $book_id = $_GET['book_id'];
+
+    // ดึงข้อมูลหนังสือจากฐานข้อมูล
+    $sql = "SELECT * FROM books WHERE book_id = $book_id";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $book = $result->fetch_assoc();
+    } else {
+        echo "ไม่พบข้อมูลหนังสือ";
+        exit;
+    }
+} else {
+    echo "ไม่พบ book_id";
+    exit;
+}
+
+// ตรวจสอบการส่งฟอร์ม
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = htmlspecialchars(trim($_POST['title']));
     $author = htmlspecialchars(trim($_POST['author']));
     $status = htmlspecialchars(trim($_POST['status']));
@@ -10,52 +29,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $price = htmlspecialchars(trim($_POST['price']));
     $table = $_POST['table'];
 
-    // แสดงค่าของตัวแปรสำหรับตรวจสอบ
-    echo "Title: $title, Author: $author, Status: $status, Genre: $genre, Price: $price<br>";
 
-    $targetDir = "uploads/";
-    $targetFile = $targetDir . basename($_FILES["image"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+    // เพิ่มฟิลด์อื่นๆ ที่คุณต้องการแก้ไขที่นี่
 
-    if ($_FILES["image"]["error"] === UPLOAD_ERR_OK) {
-        if (in_array($imageFileType, ['jpg', 'png', 'jpeg', 'gif'])) {
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-                if ($table == 'books') {
-                    $sql = "INSERT INTO books (title, author, status, cover_image, genre, price) VALUES (?, ?, ?, ?, ?, ?)";
-                    $stmt = $conn->prepare($sql);
+    // อัปเดตข้อมูลในฐานข้อมูล
+    $sql = "UPDATE books SET title='$title', author='$author',status ='$status',genre = '$genre',price = '$price' WHERE book_id=$book_id";
 
-                    // ปรับปรุงการใช้ bind_param
-                    $stmt->bind_param("sssssd", $title, $author, $status, $targetFile, $genre, $price);
-                } elseif ($table == 'purchases') {
-                    $sql = "INSERT INTO purchases (title, author, price, genre, cover_image) VALUES (?, ?, ?, ?, ?)";
-                    $stmt = $conn->prepare($sql);
-
-                    // ตรวจสอบการใช้ bind_param
-                    $stmt->bind_param("ssdsd", $title, $author, $price, $genre, $targetFile);
-                }
-
-                // ตรวจสอบการดำเนินการ
-                if ($stmt->execute()) {
-                    echo "<div class='success'>เพิ่มหนังสือสำเร็จ!</div>";
-                    header("refresh:2; url=index.php");
-                } else {
-                    echo "Error: " . $stmt->error; // แสดงข้อผิดพลาดหากการดำเนินการไม่สำเร็จ
-                }
-            } else {
-                echo "<div class='error'>ขอโทษ! ไม่สามารถอัปโหลดไฟล์ได้.</div>";
-            }
-        } else {
-            echo "<div class='error'>ขอโทษ! ไฟล์ที่อัปโหลดต้องเป็นรูปภาพ (jpg, png, jpeg, gif).</div>";
-        }
+    if ($conn->query($sql) === TRUE) {
+        header("Location: book_details.php?book_id=$book_id"); // เปลี่ยนไปยังหน้ารายละเอียดหลังการอัปเดต
+        exit;
     } else {
-        echo "<div class='error'>เกิดข้อผิดพลาดในการอัปโหลดไฟล์: " . $_FILES["image"]["error"] . "</div>";
+        echo "เกิดข้อผิดพลาด: " . $conn->error;
     }
 }
+
+
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="th">
 
@@ -119,19 +108,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="container">
         <div class="form-container">
-            <h2 class="add">Add a NewBook</h2>
-            <form action="addbook.php" method="POST" enctype="multipart/form-data">
+            <h2 class="add">Edit a book</h2>
+            <form  method="POST" >
                 <div class="form-group">
                     <label for="title">ชื่อหนังสือ:</label>
-                    <input type="text" id="title" name="title" required>
+                    <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($book['title']);?>" required>
                 </div>
                 <div class="form-group">
                     <label for="author">ผู้เขียน:</label>
-                    <input type="text" id="author" name="author" required>
+                    <input type="text" id="author" name="author" value="<?php echo htmlspecialchars($book['author']);?>" required>
                 </div>
                 <div class="form-group">
                     <label for="genre">ประเภท:</label>
-                    <select id="genre" name="genre" required>
+                    <select id="genre" name="genre" value="<?php echo htmlspecialchars($book['genre']);?>" required>
                         <option value="นิยาย">นิยาย</option>
                         <option value="สารคดี">หนังสือสารคดี</option>
                         <option value="ศิลปะ">หนังสือศิลปะ</option>
@@ -146,21 +135,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group">
                     <label for="status">สถานะ:</label>
-                    <select id="status" name="status">
+                    <select id="status" name="status"value="<?php echo htmlspecialchars($book['status']);?>" >
                         <option value="available">พร้อมใช้งาน</option>
                         <option value="unavailable">ไม่พร้อมใช้งาน</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="price">ราคา:</label>
-                    <input type="number" id="price" name="price" required>
+                    <input type="number" id="price" name="price" value="<?php echo htmlspecialchars($book['price']);?>" required>
                 </div>
-                <div class="form-group">
-                    <label for="image">เลือกรูปภาพ:</label>
-                    <input type="file" id="image" name="image" accept="image/*">
-                </div>
+              
                 <input type="hidden" name="table" value="books">
-                <input type="submit" value="เพิ่มหนังสือ" class="submit-btn">
+                <input type="submit" value="แก้ไขข้อมูล" class="submit-btn">
             </form>
         </div>
     </div>
