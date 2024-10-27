@@ -6,10 +6,10 @@ $selected_genre = isset($_GET['genre']) ? $_GET['genre'] : '';
 
 // Prepare the SQL query based on the selected genre
 if ($selected_genre) {
-    $stmt = $conn->prepare("SELECT book_id, title, author, genre, availability, cover_image FROM books WHERE genre = ?");
+    $stmt = $conn->prepare("SELECT book_id, title, author, genre, availability, cover_image, price FROM books WHERE genre = ?");
     $stmt->bind_param("s", $selected_genre);
 } else {
-    $stmt = $conn->prepare("SELECT book_id, title, author, genre, availability, cover_image FROM books");
+    $stmt = $conn->prepare("SELECT book_id, title, author, genre, availability, cover_image,price FROM books");
 }
 
 $stmt->execute();
@@ -114,6 +114,7 @@ $result = $stmt->get_result();
                             echo "<h2><a href='book_details.php?book_id=" . $row["book_id"] . "'>" . $row["title"] . "</a></h2>";
                             echo "<p><strong>ผู้แต่ง:</strong> " . $row["author"] . "</p>";
                             echo "<p><strong>ประเภท:</strong> " . $row["genre"] . "</p>";
+                            echo"<p><strong>ราคา:</strong> " . $row["price"]."</p>";
                             echo "<p><strong>สถานะ:</strong> " . $row["availability"] . "</p>";
                             echo "</div></div>";
                         }
